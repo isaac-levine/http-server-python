@@ -46,6 +46,7 @@ def make_response(
     
 async def handle_connection(reader: StreamReader, writer: StreamWriter) -> None:
     method, path, headers, body = parse_request(await reader.read(2**16))
+    
     if re.fullmatch(r"/", path):
         writer.write(b"HTTP/1.1 200 OK\r\n\r\n")
         stderr(f"[OUT] /")
@@ -92,6 +93,6 @@ async def main():
         stderr(f"--directory {GLOBALS['DIR']}")
         await server.serve_forever()
 
-        
+
 if __name__ == "__main__":
     asyncio.run(main())
